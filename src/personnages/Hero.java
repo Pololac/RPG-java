@@ -3,16 +3,21 @@ package personnages;
 import interfaces.PouvoirSpecial;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Hero extends Personnage implements PouvoirSpecial {
     private int pvMax = 100;
     private int mana;
-    private boolean potionDisponible;
+    private int nbrPotions;
+
+    //TODO
+    // Ajouter une progression (XP / montée en niveau) pour que le héros devienne plus fort au fil des combats
+
 
     public Hero(String nom) {
-        super(nom, 100, 12, 4);
+        super(nom, 50, 12, 4);
         this.mana = 30;
-        this.potionDisponible = true;
+        this.nbrPotions = 2;
     }
 
     public int getMana() {
@@ -23,33 +28,59 @@ public class Hero extends Personnage implements PouvoirSpecial {
         this.mana = mana;
     }
 
-    public boolean isPotionDisponible() {
-        return potionDisponible;
+    public int getNbrPotions() {
+        return nbrPotions;
     }
 
-    public void setPotionDisponible(boolean potionDisponible) {
-        this.potionDisponible = potionDisponible;
+    public void setNbrPotions(int nbrPotions) {
+        this.nbrPotions = nbrPotions;
     }
 
     //METHODES
-    // TODO
+    // Utiliser du Pouvoir : inflige plus de dégats qu'une attaque classique mais coûte du "mana"
     public void utiliserPouvoir(Personnage cible){
+        int coutMana = 10;
 
-    }
-
-    // Utiliser potion -> Rajouter des points de vie
-    public void utiliserPotion(){
-        if (!potionDisponible){
-            System.out.println("Tu as déjà utilisé ta potion durant ce combat...");
+        if (this.mana < coutMana){
+            System.out.println("Désolé, mais tu n'as pas assez de mana...");
             return;
         }
-        this.pv += 30;
+        this.mana -= coutMana;
+
+        // Appliquer un facteur "random" compris entre 1,5 et 2 sur l'attaque pour ajouter imprévisibilité
+        Random r = new Random();
+        double min = 1.5;
+        double max = 2;
+        double random = min + (max - min) * r.nextDouble();
+
+        double degatsDouble = (this.attaque * random) - cible.defense;
+        int degats = (int) Math.round(degatsDouble);
+
+        if (degats < 0) degats = 0;
+        System.out.println(this.nom + " attaque " + cible.nom + " et inflige " + degats + " dégâts !");
+        System.out.println("Mana restant : " + this.mana);
+        cible.prendreDegats(degats);
+    }
+
+    // Utiliser une potion : pour rajouter des points de vie
+    public void utiliserPotion(){
+        int ajoutPv = 20;
+        if (nbrPotions == 0){
+            System.out.println("Tu as déjà utilisé toutes tes potions...");
+            return;
+        }
+        int pvAvant = this.pv;
+        this.pv += ajoutPv;
         if (this.pv > this.pvMax){
             this.pv = this.pvMax;
-            System.out.println("Tu a utilisé une potion et récupérer tous tes PV.");
+            System.out.println("Tu a utilisé une potion et récupéré tous tes PV.");
         }
-        System.out.println("Tu utilises une potion et récupères 30 PV. Tu as maintenant " + this.pv + " PV.");
-        potionDisponible = false;
+        int pvGagnes = this.pv - pvAvant;
+
+        System.out.println("Tu a utilisé une potion et récupéré " + pvGagnes + " PV. Tu as maintenant " + this.pv + " PV.");
+        nbrPotions--;
+        System.out.println("Potions restantes : " + nbrPotions);
+
     }
 
     @Override
@@ -57,12 +88,12 @@ public class Hero extends Personnage implements PouvoirSpecial {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Hero hero = (Hero) o;
-        return mana == hero.mana && potionDisponible == hero.potionDisponible;
+        return mana == hero.mana && nbrPotions == hero.nbrPotions;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), mana, potionDisponible);
+        return Objects.hash(super.hashCode(), mana, nbrPotions);
     }
 
     @Override
@@ -70,6 +101,6 @@ public class Hero extends Personnage implements PouvoirSpecial {
         return " Tes stats :\n" +
                 "- PV : " + pv + "\n" +
                 "- Mana : " + mana + "\n" +
-                "- Potion disponible : " + (potionDisponible ? "Oui" : "Non") + "\n";
+                "- Potions : " + nbrPotions + "\n";
     }
 }
