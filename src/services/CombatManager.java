@@ -2,32 +2,74 @@ package services;
 
 import personnages.*;
 import java.util.Random;
-
+import java.util.Scanner;
 
 public class CombatManager {
+    private final Scanner scanner;
 
-    // Génération d’un ennemi aléatoire (creerEnnemi())
-    public static Ennemi genererEnnemiAleatoire() {
+    public CombatManager(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    // Lancer le combat (Pour chaque tour)
+    public boolean lancerCombat(Hero hero) {
+        Ennemi ennemi = genererEnnemiAleatoire();
+        System.out.println("\n ⚔️ Un " + ennemi.getNom() + " apparaît !");
+
+        // Ajout d'une temporisation
+        try {
+            Thread.sleep(3000); // pause de 0.5s
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        while (hero.estVivant() && ennemi.estVivant()) {
+            // 1 tour
+            afficherEtat(hero, ennemi);
+            // Ajout d'une temporisation
+            try {
+                Thread.sleep(1000); // pause de 0.5s
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            afficherChoix();
+            int choix = scanner.nextInt();
+            scanner.nextLine();
+            executerChoix(choix, hero, ennemi);
+
+            // Ajout d'une temporisation
+            try {
+                Thread.sleep(500); // pause de 0.5s
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return hero.estVivant();
+    }
+
+
+    // Génération d’un ennemi aléatoire
+    private Ennemi genererEnnemiAleatoire() {
         Random rand = new Random();
         int tirage = rand.nextInt(3) + 1;
         switch (tirage) {
             case 1: return new Gobelin();
             case 2: return new Troll();
             case 3: return new Dragon();
-            default: return new Gobelin(); // sécurité
+            default: return new Gobelin();
         }
     }
 
-    // Lancer le combat (Pour chaque tour)
-        // Afficher l'ennemi
-    public static void afficherEnnemi(Ennemi ennemi) {
-        System.out.println("===================");
-        System.out.println("Un " + ennemi.getNom() + " est face à toi. ");
-        System.out.println("===================");
+    // Afficher état hero et ennemi
+    private void afficherEtat(Hero hero, Ennemi ennemi) {
+        System.out.println("\n--- État actuel ---");
+        System.out.println(hero);
+        System.out.println(ennemi);
     }
 
-        // Afficher console de choix
-    public static void afficherChoix() {
+    // Afficher console de choix
+    public void afficherChoix() {
         System.out.println("Que souhaites-tu faire ?");
         System.out.println("1. Attaquer");
         System.out.println("2. Utiliser le mana");
@@ -37,7 +79,7 @@ public class CombatManager {
     }
 
         // Appliquer le choix
-    public static void executerChoix(int choix, Hero hero, Ennemi ennemi) {
+    public void executerChoix(int choix, Hero hero, Ennemi ennemi) {
         switch (choix) {
             case 1:
                 hero.attaquer(ennemi);
@@ -53,9 +95,6 @@ public class CombatManager {
                 break;
             case 3:
                 hero.utiliserPotion();
-                if (ennemi.estVivant()) {
-                    ennemi.attaquer(hero);
-                }
                 break;
             case 4:
                 System.out.println(hero);
@@ -64,25 +103,5 @@ public class CombatManager {
                 System.out.println("Choix invalide !");
         }
     }
-
-
-        // Gestion des tours (qui attaque, quand)
-
-
-        // Gestion des potions / pouvoirs
-
-        // Affichage des informations (si centralisation des messages console ici)
-
-
-    // A la fin de chaque tour, vérification de la mort d'un des combattants
-        // Si Ennemi est mort -> Victoire -> Passer au tour d'après
-        // Si Hero est mort -> Défaite -> Ecrire le nombre d'ennemis vaincus et sauvegarder le score
-
-
-
-
-
-
-
 
 }
