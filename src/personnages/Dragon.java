@@ -2,6 +2,6 @@ package personnages;
 
 public class Dragon extends Ennemi {
     public Dragon() {
-        super("Dragon", 50, 15, 10);
+        super("Dragon", 70, 15, 5);
     }
 }

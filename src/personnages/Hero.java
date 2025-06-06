@@ -10,7 +10,7 @@ public class Hero extends Personnage implements PouvoirSpecial {
     private boolean potionDisponible;
 
     public Hero(String nom) {
-        super(nom, 10, 20, 5);
+        super(nom, 100, 12, 4);
         this.mana = 30;
         this.potionDisponible = true;
     }
