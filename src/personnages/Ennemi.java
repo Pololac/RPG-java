@@ -9,11 +9,6 @@ public class Ennemi extends Personnage {
 
     @Override
     public String toString() {
-        return "Ennemi{" +
-                "nom='" + nom + '\'' +
-                ", pv=" + pv +
-                ", attaque=" + attaque +
-                ", defense=" + defense +
-                '}';
+        return this.getNom() + " | PV " + pv + "\n";
     }
 }

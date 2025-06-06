@@ -98,9 +98,6 @@ public class Hero extends Personnage implements PouvoirSpecial {
 
     @Override
     public String toString() {
-        return " Tes stats :\n" +
-                "- PV : " + pv + "\n" +
-                "- Mana : " + mana + "\n" +
-                "- Potions : " + nbrPotions + "\n";
+        return nom + " | PV " + pv + ", Mana " + mana + ", Potions " + nbrPotions;
     }
 }
