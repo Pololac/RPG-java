@@ -58,7 +58,7 @@ public abstract class Personnage {
         double min = 0.8;
         double max = 1.2;
         double random = min + (max - min) * r.nextDouble();
-
+        System.out.println(random);
         double degatsDouble = (this.attaque * random) - cible.defense;
         int degats = (int) Math.round(degatsDouble);
 
@@ -72,6 +72,7 @@ public abstract class Personnage {
     public void prendreDegats(int degats) {
         this.pv -= degats;
         if (this.pv < 0) this.pv = 0;
+
         System.out.println(this.nom + " a maintenant " + this.pv + " PV.");
     }
 
@@ -79,7 +80,6 @@ public abstract class Personnage {
     public boolean estVivant() {
         return pv > 0;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -5,13 +5,14 @@ import interfaces.PouvoirSpecial;
 import java.util.Objects;
 
 public class Hero extends Personnage implements PouvoirSpecial {
+    private int pvMax = 100;
     private int mana;
-    private int potion;
+    private boolean potionDisponible;
 
-    public Hero(String nom, int mana, int potion ) {
-        super(nom, 100, 20, 5);
-        this.mana = mana;
-        this.potion = potion;
+    public Hero(String nom) {
+        super(nom, 10, 20, 5);
+        this.mana = 30;
+        this.potionDisponible = true;
     }
 
     public int getMana() {
@@ -22,12 +23,12 @@ public class Hero extends Personnage implements PouvoirSpecial {
         this.mana = mana;
     }
 
-    public int getPotion() {
-        return potion;
+    public boolean isPotionDisponible() {
+        return potionDisponible;
     }
 
-    public void setPotion(int potion) {
-        this.potion = potion;
+    public void setPotionDisponible(boolean potionDisponible) {
+        this.potionDisponible = potionDisponible;
     }
 
     //METHODES
@@ -36,35 +37,39 @@ public class Hero extends Personnage implements PouvoirSpecial {
 
     }
 
-    // TODO
+    // Utiliser potion -> Rajouter des points de vie
     public void utiliserPotion(){
-
-
+        if (!potionDisponible){
+            System.out.println("Tu as déjà utilisé ta potion durant ce combat...");
+            return;
+        }
+        this.pv += 30;
+        if (this.pv > this.pvMax){
+            this.pv = this.pvMax;
+            System.out.println("Tu a utilisé une potion et récupérer tous tes PV.");
+        }
+        System.out.println("Tu utilises une potion et récupères 30 PV. Tu as maintenant " + this.pv + " PV.");
+        potionDisponible = false;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Hero hero = (Hero) o;
-        return mana == hero.mana && potion == hero.potion;
+        return mana == hero.mana && potionDisponible == hero.potionDisponible;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), mana, potion);
+        return Objects.hash(super.hashCode(), mana, potionDisponible);
     }
 
     @Override
     public String toString() {
-        return "Hero{" +
-                "mana=" + mana +
-                ", potion=" + potion +
-                ", nom='" + nom + '\'' +
-                ", pv=" + pv +
-                ", attaque=" + attaque +
-                ", defense=" + defense +
-                '}';
+        return " Tes stats :\n" +
+                "- PV : " + pv + "\n" +
+                "- Mana : " + mana + "\n" +
+                "- Potion disponible : " + (potionDisponible ? "Oui" : "Non") + "\n";
     }
 }
