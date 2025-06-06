@@ -31,7 +31,7 @@ public class CombatManager {
         System.out.println("Que souhaites-tu faire ?");
         System.out.println("1. Attaquer");
         System.out.println("2. Utiliser le mana");
-        System.out.println("3. Utiliser la potion de guérison");
+        System.out.println("3. Utiliser une potion de guérison");
         System.out.println("4. Afficher tes paramètres");
         System.out.println("Rentre le numéro de ton choix : ");
     }
