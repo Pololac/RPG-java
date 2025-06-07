@@ -1,9 +1,11 @@
 package services;
 
+import animations.MonstreAnime;
 import personnages.Hero;
 import scores.ScoreManager;
 import java.util.Scanner;
 import exceptions.ChoixInvalideException;
+import ui.AsciiArt;
 
 public class JeuManager {
     private Hero hero;
@@ -18,6 +20,10 @@ public class JeuManager {
     // Accueillir le joueur
     public void accueillirJoueur() {
         System.out.println("==== DUNGEONS & DATA ==== ");
+        AsciiArt.afficherHero();
+        AsciiArt.afficherGobelin();
+        AsciiArt.afficherDragon();
+
         System.out.println("Rentre le nom de ton personnage : ");
         String nom = scanner.nextLine();
         creerJoueur(nom);
