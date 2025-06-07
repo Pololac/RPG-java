@@ -2,8 +2,8 @@ package services;
 
 import personnages.Hero;
 import scores.ScoreManager;
-
 import java.util.Scanner;
+import exceptions.ChoixInvalideException;
 
 public class JeuManager {
     private Hero hero;
@@ -29,7 +29,11 @@ public class JeuManager {
             afficherMenu();
             choix = scanner.nextInt();
             scanner.nextLine(); // Eviter les pb avec sauts de ligne
-            executerChoix(choix);
+            try {
+                executerChoix(choix);
+            } catch (ChoixInvalideException e) {
+                System.out.println("❌ Erreur : " + e.getMessage());
+            }
         } while (choix != 2);  // La boucle s'exécute tant qu'on ne lance pas la partie
     }
 
@@ -67,7 +71,7 @@ public class JeuManager {
 
 
     // Appliquer le choix
-    public void executerChoix(int choix) {
+    public void executerChoix(int choix) throws ChoixInvalideException {
         switch (choix) {
             case 1:
                 afficherRegles();
@@ -78,7 +82,7 @@ public class JeuManager {
                 scoreManager.afficherLeaderboard();
                 break;
             default:
-                System.out.println("Choix invalide !");
+                throw new ChoixInvalideException("Choix invalide. Rentre 1, 2 ou 3.");
         }
     }
 
@@ -106,20 +110,23 @@ public class JeuManager {
 
     // Proposition de rejouer
     public boolean demanderRejouer() {
-        System.out.println("Veux-tu rejouer ? (OUI/NON)");
-        String reponse = scanner.nextLine().trim().toUpperCase();
+        while (true) {
+            System.out.println("Veux-tu rejouer ? (OUI/NON)");
+            String reponse = scanner.nextLine().trim().toUpperCase();
 
-        if (reponse.equals("OUI")) {
-            System.out.println("Quel est le nom de ton nouveau héros ?");
-            String nom = scanner.nextLine();
-            hero = new Hero(nom);
-            return true;
+            if (reponse.equals("OUI")) {
+                System.out.println("Quel est le nom de ton nouveau héros ?");
+                String nom = scanner.nextLine();
+                hero = new Hero(nom);
+                return true;
+            } else if (reponse.equals("NON")) {
+                System.out.println("À bientôt !");
+                System.out.println("==== FIN DE PARTIE ====");
+                return false;
+            } else {
+                System.out.println("❌ Réponse invalide. Merci de répondre par OUI ou NON.");
+            }
         }
-
-        // Fin de partie
-        System.out.println("À bientôt !");
-        System.out.println("==== FIN DE PARTIE ====");
-        return false;
     }
 
 }

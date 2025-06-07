@@ -3,6 +3,8 @@ package services;
 import personnages.*;
 import java.util.Random;
 import java.util.Scanner;
+import exceptions.ChoixInvalideException;
+
 
 public class CombatManager {
     private final Scanner scanner;
@@ -36,7 +38,11 @@ public class CombatManager {
             afficherChoix();
             int choix = scanner.nextInt();
             scanner.nextLine();
-            executerChoix(choix, hero, ennemi);
+            try {
+                executerChoix(choix, hero, ennemi);
+            } catch (ChoixInvalideException e) {
+                System.out.println("❌ Erreur : " + e.getMessage());
+            }
 
             // Ajout d'une temporisation
             try {
@@ -79,7 +85,7 @@ public class CombatManager {
     }
 
         // Appliquer le choix
-    public void executerChoix(int choix, Hero hero, Ennemi ennemi) {
+    public void executerChoix(int choix, Hero hero, Ennemi ennemi) throws ChoixInvalideException {
         switch (choix) {
             case 1:
                 hero.attaquer(ennemi);
@@ -100,7 +106,7 @@ public class CombatManager {
                 System.out.println(hero);
                 break;
             default:
-                System.out.println("Choix invalide !");
+               throw new ChoixInvalideException("Choix invalide durant le combat. Rentre l'un des nombres donnés.");
         }
     }
 
