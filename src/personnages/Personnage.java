@@ -71,8 +71,6 @@ public abstract class Personnage {
     public void prendreDegats(int degats) {
         this.pv -= degats;
         if (this.pv < 0) this.pv = 0;
-
-        System.out.println(this.nom + " a maintenant " + this.pv + " PV.");
     }
 
     // Voir si l'individu est vivant par rapport à ses pv
