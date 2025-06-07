@@ -1,5 +1,7 @@
 package personnages;
 
+import exceptions.ManaInsuffisantException;
+import exceptions.PotionIndisponibleException;
 import interfaces.PouvoirSpecial;
 
 import java.util.Objects;
@@ -38,12 +40,11 @@ public class Hero extends Personnage implements PouvoirSpecial {
 
     //METHODES
     // Utiliser du Pouvoir : inflige plus de dégats qu'une attaque classique mais coûte du "mana"
-    public void utiliserPouvoir(Personnage cible){
+    public void utiliserPouvoir(Personnage cible) throws ManaInsuffisantException {
         int coutMana = 10;
 
         if (this.mana < coutMana){
-            System.out.println("Désolé, mais tu n'as pas assez de mana...");
-            return;
+            throw new ManaInsuffisantException("Tu n'as pas assez de mana pour utiliser ton pouvoir !");
         }
         this.mana -= coutMana;
 
@@ -57,17 +58,16 @@ public class Hero extends Personnage implements PouvoirSpecial {
         int degats = (int) Math.round(degatsDouble);
 
         if (degats < 0) degats = 0;
-        System.out.println(this.nom + " attaque " + cible.nom + " et inflige " + degats + " dégâts !");
+        System.out.println(this.nom + " utilise son pouvoir et inflige " + degats + " dégâts au " + cible.nom + ".");
         System.out.println("Mana restant : " + this.mana);
         cible.prendreDegats(degats);
     }
 
     // Utiliser une potion : pour rajouter des points de vie
-    public void utiliserPotion(){
+    public void utiliserPotion() throws PotionIndisponibleException {
         int ajoutPv = 20;
         if (nbrPotions == 0){
-            System.out.println("Tu as déjà utilisé toutes tes potions...");
-            return;
+            throw new PotionIndisponibleException("Potion indisponible !");
         }
         int pvAvant = this.pv;
         this.pv += ajoutPv;

@@ -1,5 +1,7 @@
 package services;
 
+import exceptions.ManaInsuffisantException;
+import exceptions.PotionIndisponibleException;
 import personnages.*;
 import java.util.Random;
 import java.util.Scanner;
@@ -86,27 +88,31 @@ public class CombatManager {
 
         // Appliquer le choix
     public void executerChoix(int choix, Hero hero, Ennemi ennemi) throws ChoixInvalideException {
-        switch (choix) {
-            case 1:
-                hero.attaquer(ennemi);
-                if (ennemi.estVivant()) {
-                    ennemi.attaquer(hero);
-                }
-                break;
-            case 2:
-                hero.utiliserPouvoir(ennemi);
-                if (ennemi.estVivant()) {
-                    ennemi.attaquer(hero);
-                }
-                break;
-            case 3:
-                hero.utiliserPotion();
-                break;
-            case 4:
-                System.out.println(hero);
-                break;
-            default:
-               throw new ChoixInvalideException("Choix invalide durant le combat. Rentre l'un des nombres donnés.");
+        try {
+            switch (choix) {
+                case 1:
+                    hero.attaquer(ennemi);
+                    if (ennemi.estVivant()) {
+                        ennemi.attaquer(hero);
+                    }
+                    break;
+                case 2:
+                    hero.utiliserPouvoir(ennemi);
+                    if (ennemi.estVivant()) {
+                        ennemi.attaquer(hero);
+                    }
+                    break;
+                case 3:
+                    hero.utiliserPotion();
+                    break;
+                case 4:
+                    System.out.println(hero);
+                    break;
+                default:
+                    throw new ChoixInvalideException("Choix invalide durant le combat. Rentre l'un des nombres donnés.");
+            }
+        } catch (ManaInsuffisantException | PotionIndisponibleException e) {
+            System.out.println("❌ " + e.getMessage());
         }
     }
 
