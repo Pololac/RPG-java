@@ -19,8 +19,7 @@ public class ScoreManager {
         ScoreEntry entry = new ScoreEntry(LocalDateTime.now(), nom, ennemisVaincus);
         scores.add(entry);
 
-        try (FileWriter writer = new FileWriter(FICHIER_SCORES)) {
-
+        try (FileWriter writer = new FileWriter(FICHIER_SCORES, true)) {
             writer.write(entry.toString() + "\n");
             System.out.println("✅ Score sauvegardé.");
         } catch (IOException e) {
@@ -48,7 +47,5 @@ public class ScoreManager {
         }
         System.out.println("==================");
     }
-
-
 
 }
