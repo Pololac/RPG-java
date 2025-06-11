@@ -18,7 +18,23 @@ public class CombatManager {
     // Lancer le combat (Pour chaque tour)
     public boolean lancerCombat(Hero hero) {
         Ennemi ennemi = genererEnnemiAleatoire();
-        System.out.println("\n ⚔️ Un " + ennemi.getNom() + " apparaît !");
+
+        String emoji = "";
+        switch (ennemi.getNom()) {
+            case "Troll":
+                emoji = "\uD83E\uDDCC"; // 🧌
+                break;
+            case "Gobelin":
+                emoji = "\uD83D\uDD77\uFE0F"; // 🕷️
+                break;
+            case "Dragon":
+                emoji = "\uD83D\uDC09"; // 🐉
+                break;
+            default:
+                emoji = "\u2753"; // ❓ inconnu
+        }
+
+        System.out.println("\n " + emoji + " Un " + ennemi.getNom() + " apparaît !");
 
         // Ajout d'une temporisation
         try {
@@ -79,9 +95,9 @@ public class CombatManager {
     // Afficher console de choix
     public void afficherChoix() {
         System.out.println("Que souhaites-tu faire ?");
-        System.out.println("1. Attaquer");
-        System.out.println("2. Utiliser le mana");
-        System.out.println("3. Utiliser une potion de guérison");
+        System.out.println("1. ⚔\uFE0F Attaquer");
+        System.out.println("2. \uD83D\uDD25 Utiliser le mana");
+        System.out.println("3. \uD83E\uDDEA Utiliser une potion de guérison");
         System.out.println("4. Afficher tes paramètres");
         System.out.println("Rentre le numéro de ton choix : ");
     }

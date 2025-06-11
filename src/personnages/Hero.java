@@ -8,7 +8,9 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Hero extends Personnage implements PouvoirSpecial {
-    private int pvMax = 100;
+    private static final int PV_MAX = 70;
+    public static final int AJOUT_PV_POTION = 20;
+
     private int mana;
     private int nbrPotions;
 
@@ -44,7 +46,7 @@ public class Hero extends Personnage implements PouvoirSpecial {
         int coutMana = 10;
 
         if (this.mana < coutMana){
-            throw new ManaInsuffisantException("Tu n'as pas assez de mana pour utiliser ton pouvoir !");
+            throw new ManaInsuffisantException("Tu n'as pas assez de mana \uD83D\uDD25 pour utiliser ton pouvoir !");
         }
         this.mana -= coutMana;
 
@@ -58,26 +60,25 @@ public class Hero extends Personnage implements PouvoirSpecial {
         int degats = (int) Math.round(degatsDouble);
 
         if (degats < 0) degats = 0;
-        System.out.println(this.nom + " utilise son pouvoir et inflige " + degats + " dégâts au " + cible.nom + ".");
-        System.out.println("Mana restant : " + this.mana);
+        System.out.println(this.nom + " utilise son pouvoir \uD83D\uDD25 et inflige " + degats + " dégâts au " + cible.nom + ".");
+        System.out.println("\uD83D\uDD25 Mana restant : " + this.mana);
         cible.prendreDegats(degats);
     }
 
     // Utiliser une potion : pour rajouter des points de vie
     public void utiliserPotion() throws PotionIndisponibleException {
-        int ajoutPv = 20;
         if (nbrPotions == 0){
             throw new PotionIndisponibleException("Potion indisponible !");
         }
         int pvAvant = this.pv;
-        this.pv += ajoutPv;
-        if (this.pv > this.pvMax){
-            this.pv = this.pvMax;
-            System.out.println("Tu a utilisé une potion et récupéré tous tes PV.");
+        this.pv += AJOUT_PV_POTION;
+        if (this.pv > this.PV_MAX){
+            this.pv = this.PV_MAX;
+            System.out.println("Tu a utilisé une potion \uD83E\uDDEA et récupéré tous tes PV.");
         }
         int pvGagnes = this.pv - pvAvant;
 
-        System.out.println("Tu a utilisé une potion et récupéré " + pvGagnes + " PV. Tu as maintenant " + this.pv + " PV.");
+        System.out.println("Tu a utilisé une potion \uD83E\uDDEA et récupéré " + pvGagnes + " PV. Tu as maintenant " + this.pv + " PV.");
         nbrPotions--;
         System.out.println("Potions restantes : " + nbrPotions);
 
@@ -98,6 +99,6 @@ public class Hero extends Personnage implements PouvoirSpecial {
 
     @Override
     public String toString() {
-        return nom + " | PV " + pv + ", Mana " + mana + ", Potions " + nbrPotions;
+        return nom + " | ❤\uFE0F " + pv + ", \uD83D\uDDE1\uFE0F " + attaque + ", \uD83D\uDEE1\uFE0F " + defense + " |  \uD83D\uDD25 " + mana + ", \uD83E\uDDEA " + nbrPotions;
     }
 }

@@ -2,15 +2,17 @@ package ui;
 
 public class AsciiArt {
 
-    public static void afficherHero() {
+    public static void afficherHeroDragon() {
         System.out.println("""
-              /\\
-             /__\\
-            ( oo )
-            |\\/\\/|
-            ||||||
-            ||||||
-        """);
+              /\\            / \\  //\\
+             /__\\      |\\___/|      \\
+            ( oo )     /       \\     |
+            |\\/\\/|  |   .-. .-.     |
+            ||||||    |   (o| |o)     |
+            ||||||    \\     ^        /
+                       \\   '-'      /
+                        \\__|_|_____/
+                       """);
     }
 
     public static void afficherGobelin() {

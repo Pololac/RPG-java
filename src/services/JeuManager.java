@@ -7,6 +7,8 @@ import java.util.Scanner;
 import exceptions.ChoixInvalideException;
 import ui.AsciiArt;
 
+import static personnages.Hero.AJOUT_PV_POTION;
+
 public class JeuManager {
     private Hero hero;
     private Scanner scanner;
@@ -20,14 +22,19 @@ public class JeuManager {
     // Accueillir le joueur
     public void accueillirJoueur() {
         System.out.println("==== DUNGEONS & DATA ==== ");
-        AsciiArt.afficherHero();
-        AsciiArt.afficherGobelin();
-        AsciiArt.afficherDragon();
+        AsciiArt.afficherHeroDragon();
 
-        System.out.println("Rentre le nom de ton personnage : ");
-        String nom = scanner.nextLine();
+        System.out.println("Rentre le nom de ton personnage :");
+        String nom = scanner.nextLine().trim();
+        // Boucle jusqu'à ce que l'utilisateur entre un nom non vide
+        while (nom.isEmpty()) {
+            System.out.println("Le nom ne peut pas être vide. Merci de le rentrer :");
+            nom = scanner.nextLine().trim();
+        }
+
         creerJoueur(nom);
-        System.out.println("Bienvenue, " + hero.getNom() + " !");
+
+        System.out.println("Bienvenue, " + hero.getNom() + " \uD83E\uDDD9\u200D♂\uFE0F ️!");
         System.out.println();
 
         int choix;
@@ -40,7 +47,7 @@ public class JeuManager {
             } catch (ChoixInvalideException e) {
                 System.out.println("❌ Erreur : " + e.getMessage());
             }
-        } while (choix != 2);  // La boucle s'exécute tant qu'on ne lance pas la partie
+        } while (choix != 1);  // La boucle s'exécute tant qu'on ne lance pas la partie
     }
 
     // Créer le joueur et le rendre accessible aux autres classes
@@ -53,37 +60,21 @@ public class JeuManager {
     }
 
     private void afficherMenu() {
-        System.out.println("Où veux-tu aller ?");
-        System.out.println("1. Découvrir les règles");
-        System.out.println("2. Débuter la partie tout de suite");
-        System.out.println("3. Voir les scores");
+        System.out.println("Que souhaites-tu faire ?");
+        System.out.println("1. ⚔\uFE0F Débuter la partie tout de suite");
+        System.out.println("2. \uD83D\uDCD6 Découvrir les règles"); // 📖
+        System.out.println("3. \uD83D\uDCDC Voir les scores"); //📜
         System.out.println("Rentre le numéro de ton choix : ");
     }
-
-    private void afficherRegles() {
-        System.out.println("===== RÈGLES DU JEU =====");
-        System.out.println("Tu incarnes un héros affrontant des ennemis au tour par tour.");
-        System.out.println("À chaque combat, tu peux attaquer, utiliser un pouvoir (mana) qui te permet d'augmenter la force de ton attaque, ou te soigner à l'aide d'une potion.");
-        System.out.println("Ton objectif est de vaincre autant d'ennemis que possible avant de mourir.");
-        System.out.println("Bonne chance !");
-        System.out.println("=========================");
-
-        try {
-            Thread.sleep(10000); // pause de 10s
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
 
     // Appliquer le choix
     public void executerChoix(int choix) throws ChoixInvalideException {
         switch (choix) {
             case 1:
+                break; // partie déjà lancer dans le Main
+            case 2:
                 afficherRegles();
                 break;
-            case 2:
-                break; // partie déjà lancer dans le Main
             case 3:
                 scoreManager.afficherLeaderboard();
                 break;
@@ -112,6 +103,24 @@ public class JeuManager {
         System.out.println("🏁 Fin de la partie. Ennemis vaincus : " + ennemisVaincus);
         scoreManager.enregistrerScore(hero.getNom(), ennemisVaincus);
 
+    }
+
+    private void afficherRegles() {
+        System.out.println("===== RÈGLES DU JEU =====");
+        System.out.println("Tu incarnes un héros affrontant des ennemis au tour par tour.");
+        System.out.println("À chaque tour de combat, tu as le choix entre :");
+        System.out.println("1. ⚔\uFE0F Attaquer : Les dégats causés à ton ennemi dépendent à la fois de la force de ton attaque, de sa capacité de défense et d'un facteur de chance ! ");
+        System.out.println("2. \uD83D\uDD25 Utiliser ton pouvoir afin d'augmenter la force de ton attaque d'1,5 à 2 fois. Cela te coute 10 points de 'mana'.");
+        System.out.println("3. \uD83E\uDDEA Te soigner à l'aide d'une potion : cela te permet de récupérer " + AJOUT_PV_POTION + "de PV.");
+        System.out.println("Ton objectif est de vaincre autant d'ennemis que possible avant de mourir.");
+        System.out.println("Bonne chance !");
+        System.out.println("=========================");
+
+        try {
+            Thread.sleep(10000); // pause de 10s
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // Proposition de rejouer
