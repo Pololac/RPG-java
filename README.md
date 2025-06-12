@@ -26,13 +26,14 @@
 ---
 
 ## 📂 Project structure
-
+````
 src/
 ├── personnages/      # Hero, Enemy, Goblin, Troll, Dragon classes
 ├── services/         # Game and combat managers
 ├── scores/           # Score management and leaderboard
 ├── exceptions/       # Custom exceptions (invalid choices, mana, potions)
 └── Main.java         # Application entry point
+````
 
 ---
 
@@ -53,19 +54,18 @@ src/
 ## 📄 How to run
 
 - Compile and run the project via your IDE or directly via terminal:
-
+````
 javac Main.java
 java Main
-
+````
 ---
 
 ## 🔥 Future improvements (possible extensions)
 
-- New enemy types
+- Introduce XP that gives more attack & defense
 - Multiple heroes with different abilities
-- Enhanced file storage (JSON or database)
+- Create a Boss to defeat every 5 wins
 - Difficulty levels
-- Game UI with JavaFX or Swing
 
 ---
 
