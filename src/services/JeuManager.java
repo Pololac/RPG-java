@@ -24,7 +24,7 @@ public class JeuManager {
         System.out.println("==== DUNGEONS & DATA ==== ");
         AsciiArt.afficherHeroDragon();
 
-        System.out.println("Rentre le nom de ton personnage :");
+        System.out.print("Rentre le nom de ton personnage : ");
         String nom = scanner.nextLine().trim();
         // Boucle jusqu'à ce que l'utilisateur entre un nom non vide
         while (nom.isEmpty()) {

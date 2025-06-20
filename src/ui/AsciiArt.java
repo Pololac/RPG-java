@@ -7,12 +7,13 @@ public class AsciiArt {
               /\\            / \\  //\\
              /__\\      |\\___/|      \\
             ( oo )     /       \\     |
-            |\\/\\/|  |   .-. .-.     |
+            |\\/\\/|    |   .-. .-.     |
             ||||||    |   (o| |o)     |
             ||||||    \\     ^        /
                        \\   '-'      /
                         \\__|_|_____/
                        """);
+
     }
 
     public static void afficherGobelin() {
@@ -23,6 +24,7 @@ public class AsciiArt {
           |   __   |
            \\______/
         """);
+
     }
 
     public static void afficherDragon() {
@@ -36,5 +38,6 @@ public class AsciiArt {
          \\   '-'      /
           \\__|_|_____/ 
         """);
+
     }
 }
